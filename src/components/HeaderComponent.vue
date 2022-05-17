@@ -19,8 +19,9 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/style/vars";
 header{
+    height: 50px;
     padding: 5px 10px;
-    background-color: lighten($primary-color, 20%);
+    background-color: lighten($primary-color, 5%);
     img{
         max-width: 40px;
     }

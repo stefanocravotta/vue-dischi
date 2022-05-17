@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import HeaderComponent from './components/HeaderComponent.vue';
 import MainComponent from './components/MainComponent.vue';
 
@@ -19,23 +18,6 @@ export default {
     HeaderComponent,
     MainComponent
 },
-  data(){
-    return{
-      baseUrl: "https://flynn.boolean.careers/exercises/api/array/music",
-
-    }
-  },
-  mounted(){
-    this.getAPI();
-  },
-  methods: {
-    getAPI(){
-      axios.get(this.baseUrl)
-      .then(r =>{
-        console.log(r.data);
-      })
-    }
-  },
 }
 </script>
 
