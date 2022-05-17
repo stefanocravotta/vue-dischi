@@ -1,5 +1,5 @@
 <template>
-  <div class="sc-card text-center pb-4">
+  <div class="sc-card text-center">
               <img class="mb-3" :src="albumCard.poster">
               <h4>{{albumCard.title}}</h4>
               <h5>{{albumCard.author}}</h5>
@@ -27,6 +27,12 @@ export default {
         color: white;
         img{
             max-width: 100%;
+        }
+        h4{
+            margin-bottom: 25px;
+        }
+        h5,h6{
+            color: rgba(211, 211, 211, 0.377);
         }
 }
 </style>
