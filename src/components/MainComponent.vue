@@ -2,13 +2,16 @@
   <main>
       <header class="d-flex justify-content-between">
         <img src="https://cdn.iconscout.com/icon/free/png-256/spotify-14-437140.png" alt="">
-        <SelectComponent @changeValue='albumToSearch' />
+        <div class="d-flex">
+          <SelectComponent class="me-2" @changeValue='albumToSearch' />
+          <SelectComponentArtist @changeArtists='artistToSearch' />
+        </div>
       </header>
       <div 
       v-if="isLoading"
       class="container card-container d-flex flex-wrap">
           <CardComponent
-           v-for= "(albumCard,index) in searchAlbum" 
+           v-for= "(albumCard,index) in printAlbumFiltered" 
            :key="`album-card-${index}`"
            :albumCard = "albumCard"/>
       </div>
@@ -23,19 +26,22 @@ import axios from 'axios';
 import CardComponent from './CardComponent.vue';
 import LoaderComponent from './LoaderComponent.vue';
 import SelectComponent from './SelectComponent.vue';
+import SelectComponentArtist from './SelectComponentArtist.vue';
 export default {
     name: "MainComponent",
     components: {
     CardComponent,
     LoaderComponent,
-    SelectComponent
+    SelectComponent,
+    SelectComponentArtist
 },
   data(){
     return{
       baseUrl: "https://flynn.boolean.careers/exercises/api/array/music",
       albumCards: [],
       isLoading: false,
-      choiseValue: ""
+      choiseValue: "",
+      choiseArtist:""
     }
   },
   mounted(){
@@ -52,9 +58,33 @@ export default {
     },
     albumToSearch(selectValue){
       this.choiseValue = selectValue;
-    }
+    },
+    artistToSearch(selectValue){
+      this.choiseArtist = selectValue;
+    },
   },
   computed: {
+    printAlbumFiltered(){
+
+      let albumFiltered = [];
+
+      if(this.choiseArtist === "Default" && this.choiseValue === "Default"){
+        albumFiltered = this.albumCards
+      }else if(this.choiseValue === "Default" && this.choiseArtist !== "Default"){
+        albumFiltered = this.albumCards.filter(album =>{
+          return album.author.includes(this.choiseArtist)
+        })
+      }else if(this.choiseArtist === "Default" && this.choiseValue !== "Default"){
+        albumFiltered = this.albumCards.filter(album =>{
+          return album.genre.includes(this.choiseValue)
+        })
+      }else if(this.choiseArtist !== "Default" && this.choiseValue !== "Default"){
+        albumFiltered = this.albumCards.filter(album =>{
+          return (album.author.includes(this.choiseArtist) && album.genre.includes(this.choiseValue))
+        })
+      }
+      return albumFiltered
+    },
     searchAlbum(){
       let albumFiltered = [];
 
